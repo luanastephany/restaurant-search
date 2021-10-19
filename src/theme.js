@@ -8,6 +8,6 @@ const theme = {
   fonts: {
     regular: 'Roboto, sans-serif',
   },
-}
+};
 
-export default theme
+export default theme;
