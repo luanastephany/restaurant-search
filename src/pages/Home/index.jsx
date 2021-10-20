@@ -3,11 +3,12 @@ import TextField, { Input } from '@material/react-text-field';
 import React, { useState } from 'react';
 import logo from '../../assets/logo.svg';
 import restaurante from '../../assets/restaurante-fake.png';
-import { Card, RestaurantCard } from '../../components';
+import { Card, Modal, RestaurantCard } from '../../components';
 import { Carousel, CarouselTitle, Container, Logo, Map, Search, Wrapper } from './styles';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState('');
+  const [modalOpened, setModalOpened] = useState(false);
 
   const settings = {
     dots: false,
@@ -42,6 +43,7 @@ const Home = () => {
         <RestaurantCard />
       </Container>
       <Map />
+      <Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)} />
     </Wrapper>
   );
 };
