@@ -3,12 +3,13 @@ import TextField, { Input } from '@material/react-text-field';
 import React, { useState } from 'react';
 import logo from '../../assets/logo.svg';
 import restaurante from '../../assets/restaurante-fake.png';
-import { Card, Modal, RestaurantCard } from '../../components';
-import { Carousel, CarouselTitle, Container, Logo, Map, Search, Wrapper } from './styles';
+import { Card, Map, Modal, RestaurantCard } from '../../components';
+import { Carousel, CarouselTitle, Container, Logo, Search, Wrapper } from './styles';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState('');
   const [modalOpened, setModalOpened] = useState(false);
+  const [query, setQuery] = useState(null);
 
   const settings = {
     dots: false,
@@ -19,6 +20,12 @@ const Home = () => {
     adaptiveHeight: true,
   };
 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      setQuery(inputValue);
+    }
+  }
+
   return (
     <Wrapper>
       <Container>
@@ -28,7 +35,11 @@ const Home = () => {
             label="Pesquisar"
             outlined
             trailingIcon={<MaterialIcon role="button" icon="search" />}>
-            <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+            <Input
+              value={inputValue}
+              onKeyPress={handleKeyPress}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
           </TextField>
           <CarouselTitle>Na sua Área</CarouselTitle>
           <Carousel {...settings}>
@@ -42,7 +53,7 @@ const Home = () => {
         </Search>
         <RestaurantCard />
       </Container>
-      <Map />
+      <Map query={query} />
       <Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)} />
     </Wrapper>
   );
