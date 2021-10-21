@@ -13,8 +13,7 @@ export default function reducer(state = initialState, action) {
     case Types.SET_RESTAURANTS:
       return { ...state, restaurants: action.payload };
     case Types.SET_RESTAURANT:
-      return { ...state, restaurant: action.payload };
-
+      return { ...state, restaurantSelected: action.payload };
     default:
       return state;
   }
@@ -29,7 +28,7 @@ export function setRestaurants(restaurants) {
 
 export function setRestaurant(restaurant) {
   return {
-    type: 'Types.SET_RESTAURANT',
+    type: Types.SET_RESTAURANT,
     payload: restaurant,
   };
 }
