@@ -1,7 +1,10 @@
 import { GoogleApiWrapper, Map } from 'google-maps-react';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setRestaurants } from '../../redux/modules/restaurants';
 
 export const MapContainer = (props) => {
+  const dispatch = useDispatch();
   const [map, setMap] = useState(null);
   const { google, query } = props;
 
@@ -18,6 +21,7 @@ export const MapContainer = (props) => {
     service.textSearch(request, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('restaurants >>>', results);
+        dispatch(setRestaurants(results));
       }
     });
   }
@@ -34,6 +38,7 @@ export const MapContainer = (props) => {
     service.nearbySearch(request, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         console.log('restaurants >>>', results);
+        dispatch(setRestaurants(results));
       }
     });
   }
@@ -50,7 +55,11 @@ export const MapContainer = (props) => {
   }, [query]);
 
   return (
-    <Map google={google} centerAroundCurrentLocation onReady={onMapReady} onRecenter={onMapReady} />
+    <Map
+      google={google}
+      centerAroundCurrentLocation
+      onReady={onMapReady}
+      onRecenter={onMapReady}></Map>
   );
 };
 
