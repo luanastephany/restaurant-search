@@ -4,14 +4,24 @@ import TextField, { Input } from '@material/react-text-field';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import logo from '../../assets/logo.svg';
+import restaurante from '../../assets/restaurante-fake.png';
 import { Card, Map, Modal, RestaurantCard } from '../../components';
-import { Carousel, CarouselTitle, Container, Logo, Search, Wrapper } from './styles';
+import {
+  Carousel,
+  CarouselTitle,
+  Container,
+  Logo,
+  ModalContent,
+  ModalTitle,
+  Search,
+  Wrapper,
+} from './styles';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState('');
   const [modalOpened, setModalOpened] = useState(false);
   const [query, setQuery] = useState(null);
-  const [restaurants, restaurantSelected] = useSelector((state) => state.restaurants);
+  const { restaurants, restaurantSelected } = useSelector((state) => state.restaurants);
   const [placeId, setPlaceId] = useState(null);
 
   const settings = {
@@ -55,7 +65,7 @@ const Home = () => {
             {restaurants.map((restaurant) => (
               <Card
                 key={restaurant.place_id}
-                photo={restaurant.photos[0].getUrl()}
+                photo={restaurant.photos ? restaurant.photos[0].getUrl() : restaurante}
                 title={restaurant.name}
               />
             ))}
@@ -70,9 +80,12 @@ const Home = () => {
       </Container>
       <Map query={query} placeId={placeId} />
       <Modal open={modalOpened} onClose={() => setModalOpened(!modalOpened)}>
-        <p>{restaurantSelected?.name}</p>
-        <p>{restaurantSelected?.formatted_phone_number}</p>
-        <p>{restaurantSelected?.formatted_address}</p>
+        <ModalTitle>{restaurantSelected?.name}</ModalTitle>
+        <ModalContent>{restaurantSelected?.formatted_phone_number}</ModalContent>
+        <ModalContent>{restaurantSelected?.formatted_address}</ModalContent>
+        <ModalContent>
+          {restaurantSelected?.opening_hours?.open_now ? 'Aberto agora' : 'Fechado agora'}
+        </ModalContent>
       </Modal>
     </Wrapper>
   );
